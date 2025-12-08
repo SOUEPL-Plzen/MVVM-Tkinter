@@ -13,7 +13,7 @@ class CarTable(ttk.Frame):
         "mileage": "Najeto (km)"
     }
 
-    def __innit__(self, parent):
+    def __init__(self, parent):
         super().__init__(parent)
         self._create_widgets()
 
@@ -26,7 +26,7 @@ class CarTable(ttk.Frame):
         # Vytváření tabulky
         self.tree = ttk.Treeview(
             self,
-            colums=self.COLUMNS,
+            columns=self.COLUMNS,
             show="headings",
             selectmode="browse"
         )
@@ -42,6 +42,8 @@ class CarTable(ttk.Frame):
         self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
+        self._configure_columns()
+
     def _configure_columns(self):
         """ Nastavení hlavičky sloupců a jejich šířky """
         column_widths = {
@@ -54,5 +56,21 @@ class CarTable(ttk.Frame):
             self.tree.column(col, width=column_widths[col], anchor=tk.CENTER)
 
 
+    def refresh(self, cars_data: list):
+        """ Obnoví data v tabulce"""
 
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+
+        for car in self.tree.get_children():
+            values =(
+                car["id"],
+                car["brand"],
+                car["model"],
+                car["year"],
+                car["price"],
+                car["color"],
+                car["mileage"]
+            )
+            self.tree.insert("", tk.END, values=values)
 

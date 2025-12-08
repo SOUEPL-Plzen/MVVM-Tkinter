@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from ui.car_table import CarTable
+import json
 
 class MainWindow:
     """ Hlavní okno aplikace """
@@ -9,6 +10,7 @@ class MainWindow:
         self.root = tk.Tk()    
         self._configure_window()
         self._create_widgets()
+        self._load_data()
     
     def _configure_window(self):
         """ Konfigurace hlavního okna """
@@ -44,6 +46,23 @@ class MainWindow:
         )
         info.pack(pady=(8, 0))
 
+    def _load_data(self):
+        """ Načtení dat do tabulky (zatím prázdná metoda) """
+        
+        try:
+            with open("data/cars.json", "r", encoding="utf-8") as file:
+                cars_data = json.load(file)
+            
+            self.table.refresh(cars_data)
+
+            total_value = sum(car["price"] for car in cars_data)
+            self.stats_label.configure(
+                text=f"Počet vozidel: {len(cars_data)} | Celková hodnota: {total_value} Kč"
+            )
+
+        except FileNotFoundError:
+            print("Soubor s daty nebyl nalezen.")
+    
     def run(self):
         """ Spuštění hlavní smyčky aplikace """
         self.root.mainloop()
