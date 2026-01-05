@@ -62,8 +62,8 @@ class CarTable(ttk.Frame):
         for item in self.tree.get_children():
             self.tree.delete(item)
 
-        for car in self.tree.get_children():
-            values =(
+        for car in cars_data:  # <-- OPRAVA: bylo "self.tree.get_children()"
+            values = (
                 car["id"],
                 car["brand"],
                 car["model"],

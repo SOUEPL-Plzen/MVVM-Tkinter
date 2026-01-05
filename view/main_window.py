@@ -46,6 +46,10 @@ class MainWindow:
         )
         info.pack(pady=(8, 0))
 
+        # Statistiky / souhrn (přidáno — musí existovat před _load_data)
+        self.stats_label = ttk.Label(main_frame, text="", font=("Segoe UI", 10))
+        self.stats_label.pack(pady=(8, 0))
+
     def _load_data(self):
         """ Načtení dat do tabulky (zatím prázdná metoda) """
         
